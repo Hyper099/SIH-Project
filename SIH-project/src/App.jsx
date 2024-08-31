@@ -1,8 +1,12 @@
 import Header from './Header';
+import Hero from './Hero';
 
 function App() {
   return (
-    <Header />
+    <main className='bg-gray-600' >
+      <Header />
+      <Hero />
+    </main>
   )
 }
 
