@@ -5,6 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body {
+  background: gray;
+  /* padding-bottom: 1000px; */
+}
+
 * {
   margin: 0;
   padding: 0;

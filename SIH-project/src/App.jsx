@@ -1,13 +1,40 @@
-import Header from './Header';
-import Hero from './Hero';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import About from './component/About';
+import Contact from './component/Contact';
+import Header from './component/Header';
+import Home from './component/Home';
+import Login from './component/Login';
+import { SignUp } from './component/SignUp';
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <><Header /><Home /></>
+    },
+    {
+      path: "/about",
+      element: <><Header /><About /></>
+    },
+    {
+      path: "/contact",
+      element: <><Header /><Contact /></>
+    },
+    {
+      path: "/login",
+      element: <Login />
+    },
+    {
+      path: "/signup",
+      element: <SignUp />
+    }
+  ]);
+
   return (
-    <main className='bg-gray-600' >
+    <RouterProvider router={router}>
       <Header />
-      <Hero />
-    </main>
-  )
+    </RouterProvider>
+  );
 }
 
-export default App
+export default App;
