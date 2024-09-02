@@ -9,7 +9,7 @@ function Login() {
             <div className='w-full h-1/2 bg-white/10 backdrop-blur-lg absolute bottom-0' />
          </div>
 
-         <div className='w-full lg:w-1/2 flex items-center justify-center'>
+         <div className='w-full lg:w-1/2 flex items-center justify-center h-auto'>
             <Form />
          </div>
 

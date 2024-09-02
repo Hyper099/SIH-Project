@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Form() {
    const navigate = useNavigate();
+   const [role, setRole] = useState('mentee'); // Default role
 
    const handleSignUpClick = () => {
       navigate('/signup');
@@ -11,14 +13,33 @@ function Form() {
       navigate('/forgot-password');
    };
 
+   const handleRoleChange = (selectedRole) => {
+      setRole(selectedRole);
+   };
+
    return (
-      <div className="bg-white px-10 py-[70px] rounded-3xl border-gray-200 shadow-md">
-         <h2 className="font-semibold text-4xl">
+      <div className="bg-white px-14 py-[40px] rounded-3xl border-gray-200 shadow-md max-w-lg mx-auto">
+         <h2 className="font-semibold text-4xl text-center">
             Welcome Back!
          </h2>
-         <p className="text-lg text-gray-500 mt-4 font-medium">
+         <p className="text-lg text-gray-500 mt-4 font-medium text-center">
             Please Enter your details
          </p>
+
+         <div className="mt-10 flex justify-around">
+            <button
+               className={`py-2 px-6 font-medium text-lg rounded-lg   transition-all  ${role === 'mentor' ? 'bg-violet-500 text-white hover:bg-violet-600 duration-300' : 'bg-gray-100 text-gray-700 '}`}
+               onClick={() => handleRoleChange('mentor')}
+            >
+               Mentor
+            </button>
+            <button
+               className={`py-2 px-6 font-medium text-lg rounded-lg transition-all ${role === 'mentee' ? 'bg-violet-500 text-white hover:bg-violet-600 duration-300' : 'bg-gray-100 text-gray-700'}`}
+               onClick={() => handleRoleChange('mentee')}
+            >
+               Mentee
+            </button>
+         </div>
 
          <div className="mt-10">
             <div>

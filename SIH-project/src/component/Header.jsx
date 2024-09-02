@@ -27,25 +27,25 @@ function Header() {
    };
 
    return (
-      <header className="text-gray-400 bg-gray-900 body-font m-0.1">
+      <header className="text-black bg-gray-100 body-font m-0.1 shadow-xl">
          <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center boxShadow rounded justify-between">
             <div>
-               <Link className="flex title-font font-medium items-center text-white mb-4 md:mb-0" to="/">
-                  <span className="ml-3 text-xl">Site Name</span>
+               <Link className="flex title-font font-medium items-center text-black mb-4 md:mb-0" to="/">
+                  <span className="ml-3 text-xl">Propel</span>
                </Link>
             </div>
 
             <div>
                <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                  <Link className="mr-5 hover:text-white" to="/">Home</Link>
-                  <Link className="mr-5 hover:text-white" to="/">Mission</Link>
-                  <Link className="mr-5 hover:text-white" to="/about">About Us</Link>
-                  <Link className="mr-5 hover:text-white" to="/contact">Contact Us</Link>
+                  <Link className="mr-5 hover:text-gray-600" to="/">Home</Link>
+                  <Link className="mr-5 hover:text-gray-600" to="/">Mission</Link>
+                  <Link className="mr-5 hover:text-gray-600" to="/about">About Us</Link>
+                  <Link className="mr-5 hover:text-gray-600" to="/contact">Contact Us</Link>
                </nav>
             </div>
 
             <div>
-               <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded-full text-base mt-4 md:mt-0" onClick={openSignUpPage}>
+               <button className="inline-flex text-white items-center bg-purple-500 border-0 py-1 px-3 focus:outline-none hover:bg-violet-600 rounded-full text-base mt-4 md:mt-0" onClick={openSignUpPage}>
                   Get Started
                   <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
                      <path d="M5 12h14M12 5l7 7-7 7"></path>
