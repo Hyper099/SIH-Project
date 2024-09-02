@@ -28,6 +28,10 @@ function Form() {
                <input
                   className="w-full p-4 rounded-lg shadow mt-1 mb-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
                   placeholder="Enter Your Email"
+                  type="email"
+                  name="email"
+                  id="email"
+                  autoComplete="email"
                />
             </div>
 
