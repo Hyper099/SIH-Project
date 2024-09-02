@@ -16,6 +16,16 @@ function Header() {
       }
    };
 
+   const openSignUpPage = () => {
+      if (loginWindowRef.current && !loginWindowRef.current.closed) {
+         // If already open, bring it to focus
+         loginWindowRef.current.focus();
+      } else {
+         // Open a new tab or window and store the reference
+         loginWindowRef.current = window.open('/signup', '_blank');
+      } // Redirect to the signup page
+   };
+
    return (
       <header className="text-gray-400 bg-gray-900 body-font m-0.1">
          <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center boxShadow rounded justify-between">
@@ -35,7 +45,7 @@ function Header() {
             </div>
 
             <div>
-               <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded-full text-base mt-4 md:mt-0">
+               <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded-full text-base mt-4 md:mt-0" onClick={openSignUpPage}>
                   Get Started
                   <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
                      <path d="M5 12h14M12 5l7 7-7 7"></path>

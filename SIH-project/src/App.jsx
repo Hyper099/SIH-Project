@@ -4,7 +4,7 @@ import Contact from './component/Contact';
 import Header from './component/Header';
 import Home from './component/Home';
 import Login from './component/Login';
-import { SignUp } from './component/SignUp';
+import SignUp from './component/SignUp';
 
 function App() {
   const router = createBrowserRouter([
