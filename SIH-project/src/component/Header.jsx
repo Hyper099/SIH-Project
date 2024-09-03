@@ -1,9 +1,11 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from "react-router-dom";
 
 function Header() {
    // useRef to store the reference to the login window/tab
    const loginWindowRef = useRef(null);
+
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
    const openLoginPage = () => {
       // Check if the login window/tab is already open
@@ -26,39 +28,88 @@ function Header() {
       } // Redirect to the signup page
    };
 
+   const toggleMenu = () => {
+      setIsMenuOpen(!isMenuOpen);
+   };
+
    return (
-      <header className="text-black bg-gray-100 body-font m-0.1 shadow-xl">
-         <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center boxShadow rounded justify-between">
-            <div>
+      <header className="text-black bg-gray-100 body-font m-0.1">
+         <div className="container mx-auto flex flex-wrap p-4 flex-col md:flex-row items-center rounded justify-between shadow-lg">
+
+            <div className="flex justify-between w-full md:w-auto">
                <Link className="flex title-font font-medium items-center text-black mb-4 md:mb-0" to="/">
-                  <span className="ml-3 text-xl">Propel</span>
+                  <span className="ml-3 text-3xl font-bold">Propel</span>
                </Link>
+               <button
+                  className="md:hidden rounded-full p-2 bg-gray-200 hover:bg-gray-300"
+                  onClick={toggleMenu}
+               >
+                  <svg
+                     fill="none"
+                     stroke="currentColor"
+                     strokeLinecap="round"
+                     strokeLinejoin="round"
+                     strokeWidth="2"
+                     className="w-6 h-6"
+                     viewBox="0 0 24 24"
+                  >
+                     <path d="M4 6h16M4 12h16M4 18h16"></path>
+                  </svg>
+               </button>
             </div>
 
-            <div>
-               <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                  <Link className="mr-5 hover:text-gray-600" to="/">Home</Link>
-                  <Link className="mr-5 hover:text-gray-600" to="/">Mission</Link>
-                  <Link className="mr-5 hover:text-gray-600" to="/about">About Us</Link>
-                  <Link className="mr-5 hover:text-gray-600" to="/contact">Contact Us</Link>
+            <div
+               className={`${isMenuOpen ? "block" : "hidden"} md:block md:ml-auto md:mr-auto flex flex-wrap items-center text-base w-full md:w-auto`}
+            >
+               <nav>
+                  <Link className="mr-8 hover:text-gray-600 text-lg block md:inline-block" to="/">
+                     Home
+                  </Link>
+                  <Link className="mr-8 hover:text-gray-600 text-lg block md:inline-block" to="/">
+                     Mission
+                  </Link>
+                  <Link className="mr-8 hover:text-gray-600 text-lg block md:inline-block" to="/about">
+                     About Us
+                  </Link>
+                  <Link className="mr-8 hover:text-gray-600 text-lg block md:inline-block" to="/contact">
+                     Contact Us
+                  </Link>
                </nav>
             </div>
 
-            <div>
-               <button className="inline-flex text-white items-center bg-purple-500 border-0 py-1 px-3 focus:outline-none hover:bg-violet-600 rounded-full text-base mt-4 md:mt-0" onClick={openSignUpPage}>
+            <div className={`${isMenuOpen ? "block" : "hidden"} md:block md:ml-auto flex justify-center w-full md:w-auto`}>
+               <button
+                  className="inline-flex text-white items-center bg-purple-500 border-0 py-2 px-5 focus:outline-none hover:bg-violet-600 rounded-full text-lg mt-4 md:mt-0"
+                  onClick={openSignUpPage}
+               >
                   Get Started
-                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                  <svg
+                     fill="none"
+                     stroke="currentColor"
+                     strokeLinecap="round"
+                     strokeLinejoin="round"
+                     strokeWidth="2"
+                     className="w-6 h-6 ml-2"
+                     viewBox="0 0 24 24"
+                  >
                      <path d="M5 12h14M12 5l7 7-7 7"></path>
                   </svg>
                </button>
 
                <button
-                  className="ml-4 inline-flex items-center text-white bg-gray-900 border-0 py-1 px-3 focus:outline-none hover:text-white hover:bg-gray-700 rounded-full text-base mt-4 md:mt-0"
-                  onClick={openLoginPage}>
-
+                  className="ml-6 inline-flex items-center text-white bg-gray-900 border-0 py-2 px-5 focus:outline-none hover:text-white hover:bg-gray-700 rounded-full text-lg mt-4 md:mt-0"
+                  onClick={openLoginPage}
+               >
                   Login
-
-                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                  <svg
+                     fill="none"
+                     stroke="currentColor"
+                     strokeLinecap="round"
+                     strokeLinejoin="round"
+                     strokeWidth="2"
+                     className="w-6 h-6 ml-2"
+                     viewBox="0 0 24 24"
+                  >
                      <path d="M5 12h14M12 5l7 7-7 7"></path>
                   </svg>
                </button>
