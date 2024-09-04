@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from "react-router-dom";
+import Logo from '../assets/Logo.png';
 
 function Header() {
    // useRef to store the reference to the login window/tab
@@ -33,12 +34,12 @@ function Header() {
    };
 
    return (
-      <header className="text-black bg-gray-100 body-font m-0.1">
+      <header className="text-black bg-white body-font m-0.1">
          <div className="container mx-auto flex flex-wrap p-4 flex-col md:flex-row items-center rounded justify-between shadow-lg">
 
             <div className="flex justify-between w-full md:w-auto">
                <Link className="flex title-font font-medium items-center text-black mb-4 md:mb-0" to="/">
-                  <span className="ml-3 text-3xl font-bold">Propel</span>
+                  <img src={Logo} alt="Logo" width={150} height={100} />
                </Link>
                <button
                   className="md:hidden rounded-full p-2 bg-gray-200 hover:bg-gray-300"

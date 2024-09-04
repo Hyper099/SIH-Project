@@ -18,7 +18,7 @@ const Contact = () => {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                ></iframe>
-               <div className="bg-white relative flex flex-wrap py-6 rounded shadow-md w-full">
+               <div className="bg-white relative flex flex-wrap py-6 rounded shadow-md w-full ">
                   <div className="lg:w-1/2 px-6">
                      <h2 className="title-font font-medium text-gray-900 tracking-widest text-xs">ADDRESS</h2>
                      <p className="mt-1">Pdeu Boys UG Hostel</p>
