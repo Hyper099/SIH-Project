@@ -1,9 +1,57 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import supabase from '../database/supabaseClient';
 
-function Form() {
+function Form({ setToken }) {
    const navigate = useNavigate();
+
+   const [formData, setFormData] = useState({
+      email: '',
+      password: ''
+   })
+
+   const [errorMessage, setErrorMessage] = useState('');
    const [role, setRole] = useState('mentee'); // Default role
+
+   function handleChange(event) {
+      setFormData((prevFormData) => {
+         return {
+            ...prevFormData,
+            [event.target.name]: event.target.value
+         };
+      });
+   }
+
+   const handleSignIn = async (e) => {
+      e.preventDefault(); // Prevent default form submission behavior
+
+      try {
+         const { data, error } = await supabase.auth.signInWithPassword({
+            email: formData.email,
+            password: formData.password,
+         });
+
+         if (error) {
+            // Display detailed error message
+            setErrorMessage(error.message);
+            throw error;
+         }
+
+         // Successfully logged in, setting the token and navigating
+         console.log(data);
+
+         if (data?.session?.access_token) {
+            setToken(data); // Set token from session data
+            navigate('/profile'); // Redirect to dashboard or another page
+         } else {
+            setErrorMessage('Login failed, please try again.');
+         }
+
+      } catch (error) {
+         // Displaying error in UI instead of alerting
+         setErrorMessage(error.message);
+      }
+   };
 
    const handleSignUpClick = () => {
       navigate('/signup');
@@ -19,16 +67,18 @@ function Form() {
 
    return (
       <div className="bg-white px-14 py-[40px] rounded-3xl border-gray-200 shadow-md max-w-lg mx-auto">
-         <h2 className="font-semibold text-4xl text-center">
-            Welcome Back!
-         </h2>
+         <h2 className="font-semibold text-4xl text-center">Welcome Back!</h2>
          <p className="text-lg text-gray-500 mt-4 font-medium text-center">
-            Please Enter your details
+            Please enter your details
          </p>
+
+         {errorMessage && (
+            <p className="text-red-500 mt-4 font-medium">{errorMessage}</p>
+         )}
 
          <div className="mt-10 flex justify-around">
             <button
-               className={`py-2 px-6 font-medium text-lg rounded-lg   transition-all  ${role === 'mentor' ? 'bg-violet-500 text-white hover:bg-violet-600 duration-300' : 'bg-gray-100 text-gray-700 '}`}
+               className={`py-2 px-6 font-medium text-lg rounded-lg transition-all ${role === 'mentor' ? 'bg-violet-500 text-white hover:bg-violet-600 duration-300' : 'bg-gray-100 text-gray-700'}`}
                onClick={() => handleRoleChange('mentor')}
             >
                Mentor
@@ -41,77 +91,78 @@ function Form() {
             </button>
          </div>
 
-         <div className="mt-10">
-            <div>
-               <label className="font-medium text-lg">
-                  Email
-               </label>
-               <input
-                  className="w-full p-4 rounded-lg shadow mt-1 mb-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
-                  placeholder="Enter Your Email"
-                  type="email"
-                  name="email"
-                  id="email"
-                  autoComplete="email"
-               />
+         <form onSubmit={handleSignIn}>
+            <div className="mt-10">
+               <div>
+                  <label className="font-medium text-lg">Email</label>
+                  <input
+                     className="w-full p-4 rounded-lg shadow mt-1 mb-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                     placeholder="Enter Your Email"
+                     type="email"
+                     name="email"
+                     id="email"
+                     autoComplete="email"
+                     onChange={handleChange}
+                  />
+               </div>
+
+               <div>
+                  <label className="font-medium text-lg">Password</label>
+                  <input
+                     type="password"
+                     className="w-full p-4 rounded-lg shadow mt-1 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                     placeholder="Enter Your Password"
+                     name="password"
+                     onChange={handleChange}
+                  />
+               </div>
             </div>
 
-            <div>
-               <label className="font-medium text-lg">
-                  Password
-               </label>
-               <input
-                  type="password"
-                  className="w-full p-4 rounded-lg shadow mt-1 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500"
-                  placeholder="Enter Your Password"
-               />
+            <div className="mt-10 flex justify-between items-center">
+               <div>
+                  <input type="checkbox" id="remember" />
+                  <label className="ml-2 font-medium text-base" htmlFor="remember">Remember for 30 days</label>
+               </div>
+               <button
+                  className="font-medium text-base text-violet-500 hover:underline"
+                  onClick={handleForgotPasswordClick}
+               >
+                  Forgot Password
+               </button>
             </div>
-         </div>
 
-         <div className="mt-10 flex justify-between items-center">
-            <div>
-               <input
-                  type="checkbox"
-                  id="remember"
-               />
-               <label className="ml-2 font-medium text-base" htmlFor="remember">Remember for 30 days</label>
+            <div className="mt-10 flex flex-col gap-y-4">
+               <button
+                  type="submit"
+                  className="w-full py-4 bg-violet-500 text-white font-semibold rounded-xl active:scale-95 hover:bg-violet-600 transition-all duration-300"
+               >
+                  Sign In
+               </button>
+
+               <button className="w-full py-4 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-x-2 active:scale-95">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M5.26644 9.76453C6.19903 6.93863 8.85469 4.90909 12.0002 4.90909C13.6912 4.90909 15.2184 5.50909 16.4184 6.49091L19.9093 3C17.7821 1.14545 15.0548 0 12.0002 0C7.27031 0 3.19799 2.6983 1.24023 6.65002L5.26644 9.76453Z" fill="#EA4335" />
+                     <path d="M16.0406 18.0142C14.9508 18.718 13.5659 19.0926 11.9998 19.0926C8.86633 19.0926 6.21896 17.0785 5.27682 14.2695L1.2373 17.3366C3.19263 21.2953 7.26484 24.0017 11.9998 24.0017C14.9327 24.0017 17.7352 22.959 19.834 21.0012L16.0406 18.0142Z" fill="#34A853" />
+                     <path d="M19.8342 20.9978C22.0292 18.9503 23.4545 15.9019 23.4545 11.9982C23.4545 11.2891 23.3455 10.5255 23.1818 9.81641H12V14.4528H18.4364C18.1188 16.0119 17.2663 17.2194 16.0407 18.0108L19.8342 20.9978Z" fill="#4A90E2" />
+                     <path d="M5.27698 14.2663C5.03833 13.5547 4.90909 12.7922 4.90909 11.9984C4.90909 11.2167 5.03444 10.4652 5.2662 9.76294L1.23999 6.64844C0.436587 8.25884 0 10.0738 0 11.9984C0 13.918 0.444781 15.7286 1.23746 17.3334L5.27698 14.2663Z" fill="#FBBC05" />
+                  </svg>
+
+                  Sign In with Google
+               </button>
             </div>
-            <button
-               className="font-medium text-base text-violet-500 hover:underline"
-               onClick={handleForgotPasswordClick}
-            >
-               Forgot Password
-            </button>
-         </div>
 
-         <div className="mt-10 flex flex-col gap-y-4">
-            <button className="w-full py-4 bg-violet-500 text-white font-semibold rounded-xl active:scale-95 hover:bg-violet-600 transition-all duration-300">
-               Sign In
-            </button>
+            <div className="flex items-center justify-center mt-5 gap-2">
+               <p className="font-medium text-base">Don't have an Account?</p>
+               <button
+                  className="font-medium text-base text-violet-500 hover:underline"
+                  onClick={handleSignUpClick}
+               >
+                  Sign Up
+               </button>
 
-            <button className="w-full py-4 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-x-2 active:scale-95">
-               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5.26644 9.76453C6.19903 6.93863 8.85469 4.90909 12.0002 4.90909C13.6912 4.90909 15.2184 5.50909 16.4184 6.49091L19.9093 3C17.7821 1.14545 15.0548 0 12.0002 0C7.27031 0 3.19799 2.6983 1.24023 6.65002L5.26644 9.76453Z" fill="#EA4335" />
-                  <path d="M16.0406 18.0142C14.9508 18.718 13.5659 19.0926 11.9998 19.0926C8.86633 19.0926 6.21896 17.0785 5.27682 14.2695L1.2373 17.3366C3.19263 21.2953 7.26484 24.0017 11.9998 24.0017C14.9327 24.0017 17.7352 22.959 19.834 21.0012L16.0406 18.0142Z" fill="#34A853" />
-                  <path d="M19.8342 20.9978C22.0292 18.9503 23.4545 15.9019 23.4545 11.9982C23.4545 11.2891 23.3455 10.5255 23.1818 9.81641H12V14.4528H18.4364C18.1188 16.0119 17.2663 17.2194 16.0407 18.0108L19.8342 20.9978Z" fill="#4A90E2" />
-                  <path d="M5.27698 14.2663C5.03833 13.5547 4.90909 12.7922 4.90909 11.9984C4.90909 11.2167 5.03444 10.4652 5.2662 9.76294L1.23999 6.64844C0.436587 8.25884 0 10.0738 0 11.9984C0 13.918 0.444781 15.7286 1.23746 17.3334L5.27698 14.2663Z" fill="#FBBC05" />
-               </svg>
-
-               Sign In with Google
-            </button>
-         </div>
-
-         <div className="flex items-center justify-center mt-5 gap-2">
-            <p className="font-medium text-base">Don't have an Account?</p>
-            <button
-               className="font-medium text-base text-violet-500 hover:underline"
-               onClick={handleSignUpClick}
-            >
-               Sign Up
-            </button>
-         </div>
-
-      </div>
+            </div>
+         </form>
+      </div >
    );
 }
 

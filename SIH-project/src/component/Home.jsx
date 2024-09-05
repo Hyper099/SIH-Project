@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
 
@@ -15,6 +15,12 @@ function Home() {
          loginWindowRef.current = window.open('/signup', '_blank');
       } // Redirect to the signup page
    };
+
+   let navigate = useNavigate();
+   const openAboutPage = () => {
+      navigate('/about');
+   };
+
 
 
    return (
@@ -39,7 +45,8 @@ function Home() {
                   <button onClick={openSignUpPage} className="inline-flex text-white bg-indigo-600 border-0 py-3 px-8 focus:outline-none hover:bg-indigo-700 rounded-full text-lg transition-transform transform hover:scale-105">
                      Get Started
                   </button>
-                  <button className="ml-4 inline-flex text-gray-800 bg-white border-0 py-3 px-8 focus:outline-none hover:bg-gray-100 rounded-full text-lg transition-transform transform hover:scale-105">
+
+                  <button onClick={openAboutPage} className="ml-4 inline-flex text-gray-800 bg-white border-0 py-3 px-8 focus:outline-none hover:bg-gray-100 rounded-full text-lg transition-transform transform hover:scale-105">
                      Learn More
                   </button>
                </div>

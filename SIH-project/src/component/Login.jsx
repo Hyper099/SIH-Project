@@ -1,6 +1,6 @@
 import Form from './Form';
 
-function Login() {
+function Login({ setToken }) {
    return (
       <div className="w-full flex h-screen">
 
@@ -10,7 +10,7 @@ function Login() {
          </div>
 
          <div className='w-full lg:w-1/2 flex items-center justify-center h-auto'>
-            <Form />
+            <Form setToken={setToken} />
          </div>
 
       </div>
