@@ -6,7 +6,7 @@ import {
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import "../assets/App.css";
+
 import { authToken, createMeeting } from "../database/API";
 
 function CameraPreview() {

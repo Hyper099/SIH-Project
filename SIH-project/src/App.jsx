@@ -8,6 +8,7 @@ import Home from './component/Home';
 import Login from './component/Login';
 import Profile from './component/Profile';
 import SignUp from './component/SignUp';
+import VCApp from './component/VCApp'
 
 const App = () => {
   const [token, setToken] = useState(null); // Use null initially to differentiate between no token and false
@@ -31,8 +32,9 @@ const App = () => {
         <Route path={'/'} element={<><Header /> <Home /></>} />
         <Route path={'/about'} element={<><Header /> <About /></>} />
         <Route path={'/contact'} element={<><Header /> <Contact /></>} />
-        <Route path={'/signup'} element={<><SignUp /></>} />
         <Route path={'/login'} element={<Login setToken={setToken} />} />
+        <Route path={'/signup'} element={<><SignUp /></>} />
+        <Route path={'/vctest'} element={<><VCApp /></>} />
 
         {token ? <Route path={'/profile'} element={<Profile token={token} />} /> : ""}
 
