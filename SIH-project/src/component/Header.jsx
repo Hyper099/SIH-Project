@@ -66,9 +66,6 @@ function Header() {
                   <Link className="mr-8 hover:text-gray-600 text-lg block md:inline-block" to="/">
                      Home
                   </Link>
-                  <Link className="mr-8 hover:text-gray-600 text-lg block md:inline-block" to="/">
-                     Mission
-                  </Link>
                   <Link className="mr-8 hover:text-gray-600 text-lg block md:inline-block" to="/about">
                      About Us
                   </Link>
