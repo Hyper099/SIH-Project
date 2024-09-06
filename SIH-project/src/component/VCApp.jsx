@@ -16,7 +16,8 @@ function CameraPreview() {
   const [audioEnabled, setAudioEnabled] = useState(true);
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setHasPermission(true);
         setCamera(stream);
@@ -27,45 +28,56 @@ function CameraPreview() {
   }, []);
 
   if (!hasPermission) {
-    return <p>Waiting for camera permission...</p>;
+    return <p className="text-center text-gray-500">Waiting for camera permission...</p>;
   }
 
   if (!camera) {
-    return <p>Camera not available</p>;
+    return <p className="text-center text-gray-500">Camera not available</p>;
   }
 
   const handleVideoToggle = () => {
-    setVideoEnabled((prev) => !prev);
-    camera.getVideoTracks()[0].enabled = videoEnabled;
+    const videoTrack = camera.getVideoTracks()[0];
+    if (videoTrack) {
+      videoTrack.enabled = !videoTrack.enabled; // Toggle video track
+      setVideoEnabled(videoTrack.enabled); // Update state
+    }
   };
 
   const handleAudioToggle = () => {
-    setAudioEnabled((prev) => !prev);
-    camera.getAudioTracks()[0].enabled = audioEnabled;
+    const audioTrack = camera.getAudioTracks()[0];
+    if (audioTrack) {
+      audioTrack.enabled = !audioTrack.enabled; // Toggle audio track
+      setAudioEnabled(audioTrack.enabled); // Update state
+    }
   };
 
   return (
-    <div>
-      <video
-        ref={(video) => {
-          if (video) {
-            video.srcObject = camera;
-          }
-        }}
-        autoPlay
-        playsInline
-        muted={audioEnabled ? false : true}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-      />
-      <div>
-        <button onClick={handleVideoToggle}>
+    <div className="flex flex-col items-center justify-center bg-gray-100 ">
+      {/* Adjusted the container size */}
+      <div className="relative w-full h-[500px]  sm:w-3/4 lg:w-3/4 bg-black rounded-md overflow-hidden">
+        <video
+          ref={(video) => {
+            if (video) {
+              video.srcObject = camera;
+            }
+          }}
+          autoPlay
+          playsInline
+          muted={audioEnabled ? false : true}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="mt-4 flex space-x-4">
+        <button
+          onClick={handleVideoToggle}
+          className={`px-4 py-2 rounded-lg ${videoEnabled ? 'bg-red-500' : 'bg-green-500'} text-white shadow-md hover:shadow-lg transition-all duration-300`}
+        >
           {videoEnabled ? "Stop Video" : "Start Video"}
         </button>
-        <button onClick={handleAudioToggle}>
+        <button
+          onClick={handleAudioToggle}
+          className={`px-4 py-2 rounded-lg ${audioEnabled ? 'bg-red-500' : 'bg-green-500'} text-white shadow-md hover:shadow-lg transition-all duration-300`}
+        >
           {audioEnabled ? "Mute Mic" : "Unmute Mic"}
         </button>
       </div>
@@ -73,26 +85,43 @@ function CameraPreview() {
   );
 }
 
+
 function JoinScreen({ getMeetingAndToken }) {
   const [meetingId, setMeetingId] = useState(null);
+
   const onClick = async () => {
     await getMeetingAndToken(meetingId);
   };
+
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center">
+      {/* Input for meeting ID */}
       <input
         type="text"
         placeholder="Enter Meeting Id"
-        onChange={(e) => {
-          setMeetingId(e.target.value);
-        }}
+        className="px-4 py-2 mb-4 rounded-lg border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onChange={(e) => setMeetingId(e.target.value)}
       />
-      <button onClick={onClick}>Join</button>
-      {" or "}
-      <button onClick={onClick}>Create Meeting</button>
+
+      {/* Buttons to Join/Create meeting */}
+      <div className="space-x-4">
+        <button
+          onClick={onClick}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+        >
+          Join
+        </button>
+        <button
+          onClick={onClick}
+          className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+        >
+          Create Meeting
+        </button>
+      </div>
     </div>
   );
 }
+
 
 function ParticipantView(props) {
   const micRef = useRef(null);
@@ -126,24 +155,21 @@ function ParticipantView(props) {
   }, [micStream, micOn]);
 
   return (
-    <div>
+    <div className="p-4 border-b">
       <p>
-        Participant: {displayName} | Webcam: {webcamOn ? "ON" : "OFF"} | Mic:{" "}
-        {micOn ? "ON" : "OFF"}
+        <span className="font-bold">{displayName}</span> | Webcam:{" "}
+        {webcamOn ? "ON" : "OFF"} | Mic: {micOn ? "ON" : "OFF"}
       </p>
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
       {webcamOn && (
         <ReactPlayer
-          //
-          playsinline // extremely crucial prop
+          playsinline
           pip={false}
           light={false}
           controls={false}
           muted={true}
           playing={true}
-          //
           url={videoStream}
-          //
           height={"300px"}
           width={"300px"}
           onError={(err) => {
@@ -158,24 +184,35 @@ function ParticipantView(props) {
 function Controls() {
   const { leave, toggleMic, toggleWebcam } = useMeeting();
   return (
-    <div>
-      <button onClick={() => leave()}>Leave</button>
-      <button onClick={() => toggleMic()}>toggleMic</button>
-      <button onClick={() => toggleWebcam()}>toggleWebcam</button>
+    <div className="flex space-x-4 mt-4">
+      <button
+        onClick={() => leave()}
+        className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+      >
+        Leave
+      </button>
+      <button
+        onClick={() => toggleMic()}
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+      >
+        Toggle Mic
+      </button>
+      <button
+        onClick={() => toggleWebcam()}
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+      >
+        Toggle Webcam
+      </button>
     </div>
   );
 }
 
 function MeetingView(props) {
   const [joined, setJoined] = useState(null);
-  //Get the method which will be used to join the meeting.
-  //We will also get the participants list to display all participants
   const { join, participants } = useMeeting({
-    //callback for when meeting is joined successfully
     onMeetingJoined: () => {
       setJoined("JOINED");
     },
-    //callback for when meeting is left
     onMeetingLeft: () => {
       props.onMeetingLeave();
     },
@@ -186,23 +223,29 @@ function MeetingView(props) {
   };
 
   return (
-    <div className="container">
-      <h3>Meeting Id: {props.meetingId}</h3>
+    <div className="flex flex-col  justify-center min-h-screen bg-gray-100">
+      <h3 className="text-xl font-bold mb-4">Meeting Id: {props.meetingId}</h3>
       {joined && joined == "JOINED" ? (
-        <div>
+        <div className="w-full sm:w-3/4 lg:w-1/2">
           <Controls />
-          //For rendering all the participants in the meeting
-          {[...participants.keys()].map((participantId) => (
-            <ParticipantView
-              participantId={participantId}
-              key={participantId}
-            />
-          ))}
+          <div className="grid grid-cols-1 gap-4 mt-4">
+            {[...participants.keys()].map((participantId) => (
+              <ParticipantView
+                participantId={participantId}
+                key={participantId}
+              />
+            ))}
+          </div>
         </div>
       ) : joined && joined == "JOINING" ? (
         <p>Joining the meeting...</p>
       ) : (
-        <button onClick={joinMeeting}>Join</button>
+        <button
+          onClick={joinMeeting}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+        >
+          Join
+        </button>
       )}
     </div>
   );
@@ -211,35 +254,43 @@ function MeetingView(props) {
 function VCApp() {
   const [meetingId, setMeetingId] = useState(null);
 
-  //Getting the meeting id by calling the api we just wrote
+  // Getting the meeting ID by calling the API
   const getMeetingAndToken = async (id) => {
     const meetingId = id == null ? await createMeeting({ token: authToken }) : id;
     setMeetingId(meetingId);
   };
 
-  //This will set Meeting Id to null when meeting is left or ended
+  // Reset the meeting ID when the meeting is left or ended
   const onMeetingLeave = () => {
     setMeetingId(null);
   };
 
   return authToken ? (
-    <div>
-      <CameraPreview />
-      {meetingId ? (
-        <MeetingProvider
-          config={{
-            meetingId,
-            micEnabled: true,
-            webcamEnabled: true,
-            name: "C.V. Raman",
-          }}
-          token={authToken}
-        >
-          <MeetingView meetingId={meetingId} onMeetingLeave={onMeetingLeave} />
-        </MeetingProvider>
-      ) : (
-        <JoinScreen getMeetingAndToken={(id) => getMeetingAndToken(id)} />
-      )}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <div className="w-full sm:w-3/4 lg:w-1/2">
+        {/* Render Camera Preview */}
+        <CameraPreview />
+
+        {/* Conditionally render meeting or join/create buttons */}
+        {meetingId ? (
+          <MeetingProvider
+            config={{
+              meetingId,
+              micEnabled: true,
+              webcamEnabled: true,
+              name: "C.V. Raman",
+            }}
+            token={authToken}
+          >
+            <MeetingView meetingId={meetingId} onMeetingLeave={onMeetingLeave} />
+          </MeetingProvider>
+        ) : (
+          // Render Join/Create Meeting buttons below video
+          <div className="mt-4">
+            <JoinScreen getMeetingAndToken={(id) => getMeetingAndToken(id)} />
+          </div>
+        )}
+      </div>
     </div>
   ) : (
     <p>No auth token available</p>
