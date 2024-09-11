@@ -64,10 +64,10 @@ function CameraPreview() {
           autoPlay
           playsInline
           muted={audioEnabled ? false : true}
-          className="w-full h-full object-cover"
+          className="object-cover w-full h-full"
         />
       </div>
-      <div className="mt-4 flex space-x-4">
+      <div className="flex mt-4 space-x-4">
         <button
           onClick={handleVideoToggle}
           className={`px-4 py-2 rounded-lg ${videoEnabled ? 'bg-red-500' : 'bg-green-500'} text-white shadow-md hover:shadow-lg transition-all duration-300`}
@@ -99,7 +99,7 @@ function JoinScreen({ getMeetingAndToken }) {
       <input
         type="text"
         placeholder="Enter Meeting Id"
-        className="px-4 py-2 mb-4 rounded-lg border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="px-4 py-2 mb-4 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         onChange={(e) => setMeetingId(e.target.value)}
       />
 
@@ -107,13 +107,13 @@ function JoinScreen({ getMeetingAndToken }) {
       <div className="space-x-4">
         <button
           onClick={onClick}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+          className="px-4 py-2 text-white transition-all duration-300 bg-blue-500 rounded-lg shadow-md hover:shadow-lg"
         >
           Join
         </button>
         <button
           onClick={onClick}
-          className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+          className="px-4 py-2 text-white transition-all duration-300 bg-green-500 rounded-lg shadow-md hover:shadow-lg"
         >
           Create Meeting
         </button>
@@ -184,22 +184,22 @@ function ParticipantView(props) {
 function Controls() {
   const { leave, toggleMic, toggleWebcam } = useMeeting();
   return (
-    <div className="flex space-x-4 mt-4">
+    <div className="flex mt-4 space-x-4">
       <button
         onClick={() => leave()}
-        className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+        className="px-4 py-2 text-white transition-all duration-300 bg-red-500 rounded-lg shadow-md hover:shadow-lg"
       >
         Leave
       </button>
       <button
         onClick={() => toggleMic()}
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+        className="px-4 py-2 text-white transition-all duration-300 bg-blue-500 rounded-lg shadow-md hover:shadow-lg"
       >
         Toggle Mic
       </button>
       <button
         onClick={() => toggleWebcam()}
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+        className="px-4 py-2 text-white transition-all duration-300 bg-blue-500 rounded-lg shadow-md hover:shadow-lg"
       >
         Toggle Webcam
       </button>
@@ -223,8 +223,8 @@ function MeetingView(props) {
   };
 
   return (
-    <div className="flex flex-col  justify-center min-h-screen bg-gray-100">
-      <h3 className="text-xl font-bold mb-4">Meeting Id: {props.meetingId}</h3>
+    <div className="flex flex-col justify-center min-h-screen bg-gray-100">
+      <h3 className="mb-4 text-xl font-bold">Meeting Id: {props.meetingId}</h3>
       {joined && joined == "JOINED" ? (
         <div className="w-full sm:w-3/4 lg:w-1/2">
           <Controls />
@@ -242,7 +242,7 @@ function MeetingView(props) {
       ) : (
         <button
           onClick={joinMeeting}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+          className="px-4 py-2 text-white transition-all duration-300 bg-blue-500 rounded-lg shadow-md hover:shadow-lg"
         >
           Join
         </button>
@@ -266,7 +266,7 @@ function VCApp() {
   };
 
   return authToken ? (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full sm:w-3/4 lg:w-1/2">
         {/* Render Camera Preview */}
         <CameraPreview />
