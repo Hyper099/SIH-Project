@@ -35,14 +35,14 @@ function Header() {
 
    return (
       <header className="text-black bg-white body-font m-0.1">
-         <div className="container mx-auto flex flex-wrap p-4 flex-col md:flex-row items-center rounded justify-between shadow-lg">
+         <div className="container flex flex-col flex-wrap items-center justify-between p-4 mx-auto rounded shadow-lg md:flex-row">
 
-            <div className="flex justify-between w-full md:w-auto">
-               <Link className="flex title-font font-medium items-center text-black mb-4 md:mb-0 ml-1" to="/">
+            <div className="flex justify-between w-full font-mono md:w-auto">
+               <Link className="flex items-center mb-4 ml-1 font-medium text-black title-font md:mb-0" to="/">
                   <img src={Logo2} alt="Logo" width={100} height={90} />
                </Link>
                <button
-                  className="md:hidden rounded-full p-2 bg-gray-200 hover:bg-gray-300"
+                  className="p-2 bg-gray-200 rounded-full md:hidden hover:bg-gray-300"
                   onClick={toggleMenu}
                >
                   <svg
@@ -63,13 +63,13 @@ function Header() {
                className={`${isMenuOpen ? "block" : "hidden "} md:block md:ml-auto md:mr-auto flex flex-wrap items-center text-base w-full md:w-auto`}
             >
                <nav>
-                  <Link className="mr-8 hover:text-gray-600  font-semibold text-lg block md:inline-block" to="/">
+                  <Link className="block mr-8 text-lg font-semibold hover:text-gray-600 md:inline-block" to="/">
                      Home
                   </Link>
-                  <Link className="mr-8 hover:text-gray-600 font-semibold  text-lg block md:inline-block" to="/about">
+                  <Link className="block mr-8 text-lg font-semibold hover:text-gray-600 md:inline-block" to="/about">
                      About Us
                   </Link>
-                  <Link className="mr-8 hover:text-gray-600  font-semibold text-lg block md:inline-block" to="/contact">
+                  <Link className="block mr-8 text-lg font-semibold hover:text-gray-600 md:inline-block" to="/contact">
                      Contact Us
                   </Link>
                </nav>
@@ -77,8 +77,7 @@ function Header() {
 
             <div className={`${isMenuOpen ? "block" : "hidden"} md:block md:ml flex justify-center w-full md:w-auto`}>
                <button
-                  className="inline-flex text-white items-center bg-purple-500 border-0 py-2 px-5 focus:outline-none hover:bg-violet-600 rounded-full text-lg mt-4 md:mt-0
-                  font-medium"
+                  className="inline-flex items-center px-5 py-2 mt-4 text-lg font-medium text-white bg-purple-500 border-0 rounded-full focus:outline-none hover:bg-violet-600 md:mt-0"
                   onClick={openSignUpPage}
                >
                   Get Started
@@ -96,7 +95,7 @@ function Header() {
                </button>
 
                <button
-                  className="ml-6 inline-flex items-center text-white bg-gray-900 border-0 py-2 px-5 focus:outline-none hover:text-white hover:bg-gray-700 rounded-full text-lg mt-4 md:mt-0 font-medium"
+                  className="inline-flex items-center px-5 py-2 mt-4 ml-6 text-lg font-medium text-white bg-gray-900 border-0 rounded-full focus:outline-none hover:text-white hover:bg-gray-700 md:mt-0"
                   onClick={openLoginPage}
                >
                   Login
